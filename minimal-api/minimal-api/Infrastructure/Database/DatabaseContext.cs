@@ -1,0 +1,2 @@
+namespace MinimalApi.Infraestructure.Database;
+
