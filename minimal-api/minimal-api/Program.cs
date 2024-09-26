@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MinimalApi.Domain.Dtos;
+using MinimalApi.Domain.Interfaces;
+using MinimalApi.Domain.Services;
 using MinimalApi.Infraestructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("postgres")));
 
@@ -23,11 +27,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapGet( "/", () => "Hello World!");
-app.MapPost("/login", (LoginDto loginDto) =>
+app.MapPost("/login", ([FromBody] LoginDto loginDto, IAdminService adminService) =>
 {
-    if (loginDto.Email == "adm@teste.com" && loginDto.Senha == "12345")
+    if (adminService.Login(loginDto) != null)
         return Results.Ok("Login com sucesso0");
-    else return Results.Unauthorized();
+    return Results.Unauthorized();
 });
 
 
