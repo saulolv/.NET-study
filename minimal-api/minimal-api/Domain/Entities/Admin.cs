@@ -7,7 +7,7 @@ public class Admin
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; } = default;
-
+ 
     [Required]
     [StringLength(255)]
     public string Email { get; set; } = default!;

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MinimalApi.Domain.Entities;
 
-namespace MinimalApi.Infraestructure.Database;
+namespace MinimalApi.Infraestructure.Persistence.Database;
 
 public class DatabaseContext : DbContext
 {
@@ -12,6 +12,7 @@ public class DatabaseContext : DbContext
         _configurartion = configuration;
     }
     public DbSet<Admin> Admins { get; set; } = default!;
+    public DbSet<Vehicle> Vehicles { get; set; } = default!;
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
